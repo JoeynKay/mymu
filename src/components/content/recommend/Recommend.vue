@@ -1,22 +1,47 @@
 <!--  -->
 <template>
   <div class="recommend">
-    <div class="slider-wrapper" v-if="banner.length">
-      <slider>
-        <div v-for="item in banner" :key="item.actid">
-          <a :href="item.jumpurl">
-            <img :src="item.picurl" >
-          </a>
-        </div>
-     </slider>
-    </div>
+    <scroll ref="scroll" class="recommend-content">
+      <!-- 使用better-scroll整体管理推荐页面 -->
+      <div>
+        <div class="slider-wrapper" v-if="banner.length">
+        <slider>
+          <div v-for="item in banner" :key="item.actid">
+            <a :href="item.jumpurl">
+              <img :src="item.picurl" @load="loadImage">
+            </a>
+          </div>
+      </slider>
+      </div>
+      <!-- 推荐歌单列表start -->
+      <div class="recommend-list">
+        <!-- 歌单列表标题 -->
+        <h1 class="list-title">推荐歌单列表</h1>
+        <!-- 歌单列表 -->
+        <ul>
+          <li v-for="item in discList" :key="item.dissid" class="item">
+            <div class="icon">
+              <img :src="item.imgurl" width="60" height="60">
+            </div>
+            <div class="text">
+              <h2 class="name" v-html="item.creator.name"></h2>
+              <p class="desc" v-html="item.dissname"></p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- 推荐歌单列表end -->
+      </div>
+    </scroll>
   </div>
 </template>
 
 <script>
-import {getRecommend} from 'network/recommend'
+import {getRecommend, getDiscList} from 'network/recommend'
 
 import Slider from 'common/slider/Slider'
+import Scroll from 'common/Scroll'
+
 export default {
   name: 'Recommend',
   beforeRouteLeave (to, from, next) {
@@ -31,31 +56,49 @@ export default {
     })
   },
   components: {
-    Slider
+    Slider,
+    Scroll
   },
   data () {
     return {
-      banner: []
+      banner: [],
+      discList: []
     }
   },
   created () {
     this._getRecommend()
+    this._getDiscList()
   },
   destroyed () {
     console.log('Recommend组件没有keep-alive')
   },
   methods: {
+    //获得轮播图数据
     _getRecommend () {
       getRecommend().then(res => {
         // console.log(res.data.banner)//打印一下数据
         this.banner = res.data.banner
       })
+    },
+    //获得歌单数据
+    _getDiscList () {
+      getDiscList().then(res => {
+       this.discList = res.data.list
+      })
+    },
+    loadImage () {
+      if(!this.checkLoaded) {
+        console.log('image')
+        this.$refs.scroll.refresh()
+      }
     }
   },
+ 
 }
 </script>
 
 <style  scoped lang="stylus">
+  @import "~assets/stylus/variable.styl"
   .recommend
     position: fixed
     width: 100%
