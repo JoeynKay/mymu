@@ -1,13 +1,13 @@
 <!--  -->
 <template>
-  <div class="slider" ref="slider">
-    <div class="slider-group" ref="sliderGroup">
-      <slot></slot>
+    <div class="slider" ref="slider">
+      <div class="slider-group" ref="sliderGroup">
+        <slot></slot>
+      </div>
+      <div class="dots">
+        <span v-for="(item, index) in dots" class="dot" :key="index" :class="{active: currentPageIndex === index}"></span>
+      </div>
     </div>
-    <div class="dots">
-       <span v-for="(item, index) in dots" class="dot" :key="index" :class="{active: currentPageIndex === index}"></span>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -134,7 +134,7 @@ export default {
           this._play()
           //实际上便是每次滚动结束后，在回调里判断是否是自动播放，从而调用播放函数
         }
-        console.log('scroll-end下一张')
+        // console.log('scroll-end下一张')
       })
 
       this.slider.on('beforeScrollStart', () => {
