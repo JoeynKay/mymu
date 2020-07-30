@@ -8,7 +8,7 @@
         <slider>
           <div v-for="item in banner" :key="item.actid">
             <a :href="item.jumpurl">
-              <img :src="item.picurl" @load="loadImage">
+              <img class="needsclick" :src="item.picurl" @load="loadImage">
             </a>
           </div>
       </slider>
@@ -21,7 +21,7 @@
         <ul>
           <li v-for="item in discList" :key="item.dissid" class="item">
             <div class="icon">
-              <img :src="item.imgurl" width="60" height="60">
+              <img v-lazy="item.imgurl" width="60" height="60">
             </div>
             <div class="text">
               <h2 class="name" v-html="item.creator.name"></h2>
@@ -32,6 +32,9 @@
       </div>
       <!-- 推荐歌单列表end -->
       </div>
+      <div class="loading-container" v-show="!discList.length">
+        <loading></loading>
+      </div>
     </scroll>
   </div>
 </template>
@@ -41,6 +44,7 @@ import {getRecommend, getDiscList} from 'network/recommend'
 
 import Slider from 'common/slider/Slider'
 import Scroll from 'common/Scroll'
+import Loading from 'common/loading/Loading'
 
 export default {
   name: 'Recommend',
@@ -57,7 +61,8 @@ export default {
   },
   components: {
     Slider,
-    Scroll
+    Scroll,
+    Loading
   },
   data () {
     return {
@@ -67,7 +72,8 @@ export default {
   },
   created () {
     this._getRecommend()
-    this._getDiscList()
+    setTimeout(() => { this._getDiscList()}, 1000)
+   
   },
   destroyed () {
     console.log('Recommend组件没有keep-alive')
@@ -83,6 +89,7 @@ export default {
     //获得歌单数据
     _getDiscList () {
       getDiscList().then(res => {
+        console.log(res)
        this.discList = res.data.list
       })
     },
