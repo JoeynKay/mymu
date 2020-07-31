@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div class="singer">
-    <list-view :data="singers">
+    <list-view :datalist="singers">
 
     </list-view>
   </div>
@@ -41,7 +41,7 @@ export default {
           // this.singers = res.data.list
           // console.log(this._normaliseSinger(this.singers))
           this.singers = this._normaliseSinger(res.data.list)
-          console.log(this.singers)
+          // console.log(this.singers)
         })
     },
     //对获取的数据接口进行处理
@@ -93,6 +93,10 @@ export default {
 }
 </script>
 
-<style  scoped>
-
+<style  scoped lang="stylus">
+  .singer
+    position fixed
+    top 88px
+    width 100%
+    bottom 0
 </style>
