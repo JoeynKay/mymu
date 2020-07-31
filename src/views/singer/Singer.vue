@@ -29,7 +29,6 @@ export default {
     }
   },
   created () {
-    console.log('singer-created')
     this._getSingerList()
   },
   methods: {
