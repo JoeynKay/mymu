@@ -1,4 +1,4 @@
-<!--  -->
+<!-- 该组件的父容器的高度一定要比其低，才能达到滚动的效果，类比滚动条的出现 -->
 <template>
   <div ref="wrapper">
     <slot></slot>
@@ -65,6 +65,14 @@ export default {
         click: this.click,
         scrollX: this.scrollX
       })
+      //是否向组件实例派发scroll事件
+      if (this.listenScroll) {
+        let vm = this
+        this.scroll.on('scroll', (pos) => {
+          //即该组件实例向外派发scroll事件
+          vm.$emit('scroll', pos)
+        })
+      }
     },
     disable() {
       // 代理better-scroll的disable方法
@@ -78,6 +86,12 @@ export default {
       // 代理better-scroll的refresh方法
       this.scroll && this.scroll.refresh()
     },
+    scrollTo() {
+      this.scroll && this.scroll.scrollTo().apply(this.scroll, arguments)
+    },
+    scrollToElement() {
+      this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
+    }
   },
   watch: {
     data () {
