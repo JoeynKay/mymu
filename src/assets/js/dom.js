@@ -12,3 +12,14 @@ export function hasClass (el, className) {
 
   return reg.test(el.className)
 }
+
+//获取dom自定义属性的值，或者给dom元素的属性赋值
+export function getData (el, name, val) {
+  const PREFIX = 'data-'
+  const NAME = PREFIX + name
+  if (val) {
+    return el.setAttribute(NAME, val)
+  } else {
+    return el.getAttribute(NAME)
+  }
+}
