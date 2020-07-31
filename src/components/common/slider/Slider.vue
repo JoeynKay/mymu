@@ -38,9 +38,6 @@ export default {
       default: 2000
     }
   },
-  created() {
-    console.log('slider-created')
-  },
   mounted () {
     setTimeout(() => {
       this._setSliderWidth()
