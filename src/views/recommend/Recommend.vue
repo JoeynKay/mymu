@@ -48,17 +48,6 @@ import Loading from 'common/loading/Loading'
 
 export default {
   name: 'Recommend',
-  beforeRouteLeave (to, from, next) {
-    // clearTimeout(this.timer)
-    console.log('route-leave-recommend')
-    // console.log(this.$refs.slider)
-    next()
-  },
-  beforeRouteEnter(to, from, next){
-    next(() => {
-      console.log('route-enter-recommend')
-    })
-  },
   components: {
     Slider,
     Scroll,
