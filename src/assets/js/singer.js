@@ -1,3 +1,4 @@
+//用于singer页面中的数据处理
 export default class Singer {
   constructor(id, name) {
     this.id = id,
