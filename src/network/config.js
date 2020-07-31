@@ -9,6 +9,7 @@ export const commonParams = {
 
 export const options = {
   param: 'jsonpCallback'
+  //注意单词拼写一定要为param
 }
 
 export const ERR_OK = 0
